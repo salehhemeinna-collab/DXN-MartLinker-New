@@ -12,7 +12,7 @@ const catalogFallback={"categories":[{"id":"00000000-0000-4000-8000-000000000001
  * ADMIN UI/operations are isolated in admin.js.
  * Rule: admin-only changes should be made in admin.js/admin.css.
  */
-const MARTLINKER_BUILD='CUSTOMER-APP-INDEPENDENT-2026-09-24'
+const MARTLINKER_BUILD='CUSTOMER-APP-INDEPENDENT-2026-09-25-FAST-ORDER'
 const ADMIN_APP_URL = 'https://admin.dxn.martlinker.com'
 
 const app = document.querySelector('#app')
@@ -24,7 +24,7 @@ const AUTH_RETURN_KEY = 'ml_auth_return_view'
 const AUTH_GOOGLE_KEY = 'ml_google_oauth_pending'
 let settings = {}, categories = [], products = [], banners = [], offers = []
 let cart = []; try { const raw=JSON.parse(localStorage.getItem(CART_KEY) || '[]'); cart=Array.isArray(raw)?raw:[] } catch { cart=[] }
-let view = 'shop', viewStack = [], categoryId = 'all', query = '', sortMode = 'default', page = 1, pageSize = Number(localStorage.getItem('ml_page_size') || 20), modal = null
+let view = 'shop', viewStack = [], categoryId = 'all', query = '', sortMode = 'default', page = 1, pageSize = Number(localStorage.getItem('ml_page_size') || 12), modal = null
 
 const T = {
   ar:{home:'الرئيسية',shop:'المنتجات',cart:'السلة',account:'حسابي',admin:'لوحة التحكم',login:'دخول',signup:'إنشاء حساب',search:'ابحث عن منتج...',categories:'التصنيفات',all:'الكل',add:'أضف للسلة',out:'غير متوفر',member:'سعر العضو',empty:'السلة فارغة',checkout:'إتمام الطلب',subtotal:'المجموع',delivery:'التوصيل',total:'الإجمالي',fullName:'الاسم الكامل',email:'البريد الإلكتروني',password:'كلمة المرور',whatsapp:'رقم واتساب',confirm:'تأكيد كلمة المرور',create:'إنشاء الحساب',signIn:'تسجيل الدخول',orders:'طلباتي',noOrders:'لا توجد طلبات',wilaya:'الولاية',moughataa:'المقاطعة',address:'العنوان بالتفصيل',notes:'ملاحظات',payment:'طريقة الدفع',paymentBank:'الدفع عن طريق التطبيقات البنكية',proof:'إثبات الدفع',send:'إرسال الطلب',bankily:'رقم Bankily',bankName:'اسم البنك',accountName:'اسم صاحب الحساب',accountNumber:'رقم الحساب',save:'حفظ',details:'تفاصيل المنتج',description:'الوصف',available:'متاح',blocked:'محظور',active:'نشط',inactive:'غير نشط',dashboard:'الرئيسية',products:'المنتجات',inventory:'المخزون',orderMgmt:'الطلبات',customers:'العملاء',staff:'الموظفون',settings:'الإعدادات',audit:'السجل',categoriesAdmin:'التصنيفات',banners:'البانرات',newProduct:'منتج جديد',edit:'تعديل',stock:'المخزون',sku:'SKU',threshold:'حد التنبيه',image:'رابط الصورة',category:'التصنيف',price:'السعر',memberPrice:'سعر العضو',saveProduct:'حفظ المنتج',cancel:'إلغاء',low:'منخفض',status:'الحالة',approve:'تأكيد الدفع',reject:'رفض الدفع',view:'عرض',refresh:'تحديث',nameAr:'الاسم بالعربية',nameFr:'الاسم بالفرنسية',nameEn:'الاسم بالإنجليزية',descAr:'الوصف بالعربية',descFr:'الوصف بالفرنسية',descEn:'الوصف بالإنجليزية',site:'إعدادات الموقع',storeName:'اسم المتجر',logo:'رابط الشعار',deliveryFee:'رسوم التوصيل',whatsappStore:'واتساب المتجر',contactEmail:'البريد الإلكتروني',taglineAr:'وصف الصفحة بالعربية',taglineFr:'وصف الصفحة بالفرنسية',taglineEn:'وصف الصفحة بالإنجليزية',facebook:'Facebook',instagram:'Instagram',tiktok:'TikTok',saveSettings:'حفظ الإعدادات',success:'تم بنجاح',required:'يرجى إكمال البيانات',wrong:'حدث خطأ',needLogin:'سجل الدخول لإتمام الطلب',needWhatsapp:'رقم واتساب مطلوب',upload:'اختر إثبات الدفع',proofOpen:'فتح الإثبات',noData:'لا توجد بيانات',role:'الدور',customer:'عميل',manager:'مدير',employee:'موظف',block:'حظر',unblock:'إلغاء الحظر',titleAr:'العنوان بالعربية',titleFr:'العنوان بالفرنسية',bodyAr:'النص بالعربية',bodyFr:'النص بالفرنسية',buttonAr:'نص الزر بالعربية',buttonFr:'نص الزر بالفرنسية',link:'الرابط',createCategory:'إضافة تصنيف',saveCategory:'حفظ التصنيف',createBanner:'إضافة بانر',saveBanner:'حفظ البانر',bannerTitle:'عنوان البانر',imageUrl:'رابط الصورة',sort:'الترتيب',open:'فتح',pending:'مراجعة الدفع',confirmed:'مؤكد',rejected:'مرفوض',emailConfirm:'تحقق من بريدك الإلكتروني.',accountBlocked:'الحساب محظور',remove:'حذف',confirmRemove:'هل تريد الحذف؟',deleteCustomer:'محو نهائي',confirmDeleteCustomer:'سيتم محو حساب العميل نهائيًا من قاعدة البيانات. هل تريد المتابعة؟',logout:'خروج الحساب',noImage:'بدون صورة',storeInfo:'بيانات المتجر',paymentInfo:'بيانات الدفع',socialInfo:'روابط التواصل',seoInfo:'SEO',heroTitle:'العنوان الرئيسي',heroText:'النص الرئيسي',seoTitle:'عنوان SEO',seoDescription:'وصف SEO',footer:'نص التذييل',saveProfile:'حفظ الحساب',share:'مشاركة المنتج',shareWhatsapp:'مشاركة عبر WhatsApp',shareFacebook:'مشاركة عبر Facebook',shareTiktok:'مشاركة عبر TikTok',copyLink:'نسخ الرابط',linkCopied:'تم نسخ الرابط',nativeShare:'مشاركة من الهاتف'},
@@ -49,6 +49,7 @@ const normalizeImageUrl = u => {
 }
 const imageOf = p => normalizeImageUrl(p?.image_url || imageMap[p?.name_ar] || '')
 const imageFallback = p => normalizeImageUrl(imageMap[p?.name_ar] || '')
+const logoUrl = () => normalizeImageUrl(settings?.branch_logo_url || settings?.logo_url || '')
 const activeOffer = p => offers.find(o => o.product_id===p.id && o.is_active && Date.now()>=new Date(o.starts_at).getTime() && Date.now()<=new Date(o.ends_at).getTime())
 const effectivePrice = p => { const member=Number(p?.member_price); if(p?.member_price!==null&&p?.member_price!==undefined&&Number.isFinite(member)&&member>=0)return member; const o=activeOffer(p); return o ? Number(o.new_price) : Number(p?.price||0) }
 const badgeText = p => p.badge || (activeOffer(p) ? 'عرض' : '')
@@ -71,30 +72,45 @@ function go(v){if(v==='admin')return; if(view!==v)viewStack.push(view);view=v;mo
 function goBack(){if(modal){modal=null;render();return}view=viewStack.length?viewStack.pop():'shop';render()}
 
 async function loadPublic(){
-  // Always keep the public catalog available. Supabase is used when reachable;
-  // the bundled catalog is a safe fallback so a transient API/RLS/config issue
-  // can never turn the storefront into an empty page.
+  // Render the bundled catalog immediately. Remote data is a progressive enhancement,
+  // so a slow Supabase response can never block the storefront first paint.
   categories = Array.isArray(catalogFallback.categories) ? catalogFallback.categories : []
   products = Array.isArray(catalogFallback.products) ? catalogFallback.products : []
   banners = []
   offers = []
   settings = {store_name_ar:'MartLinker',store_name_fr:'MartLinker',tagline_ar:'متجر DXN في موريتانيا',tagline_fr:'Boutique DXN en Mauritanie',delivery_fee:0,branch_name_ar:'فرع DXN كرفور مدريد',branch_name_fr:'Point de vente DXN Carrefour Madrid',branch_phone:'+222 20103010',branch_whatsapp:'22220103010'}
   if(!supabase) return
+
   try {
-    const [s,c,p,b,o] = await Promise.all([
+    // Only the data needed for the first storefront render is fetched here.
+    const [s,c,p] = await Promise.all([
       supabase.from('site_settings').select('*').limit(1).maybeSingle(),
       supabase.from('categories').select('*').order('sort_order',{ascending:true}),
-      supabase.from('products').select('*').eq('is_active',true).order('sort_order',{ascending:true}),
-      supabase.from('banners').select('*').eq('is_active',true).order('sort_order',{ascending:true}),
-      supabase.from('offers').select('*').eq('is_active',true)
+      supabase.from('products').select('id,name_ar,name_fr,name_en,description_ar,description_fr,description_en,category_id,sku,price,member_price,stock,stock_threshold,image_url,is_active,sort_order,created_at,badge,slug').eq('is_active',true).order('sort_order',{ascending:true})
     ])
+
     if(!s.error && s.data) settings={...settings,...s.data}
     if(!c.error && Array.isArray(c.data) && c.data.length) categories=c.data
     if(!p.error && Array.isArray(p.data) && p.data.length) products=p.data
-    if(!b.error && Array.isArray(b.data)) banners=b.data
-    if(!o.error && Array.isArray(o.data)) offers=o.data
+
+    // Banners/offers are non-critical; load them after the main catalog.
+    Promise.all([
+      supabase.from('banners').select('*').eq('is_active',true).order('sort_order',{ascending:true}),
+      supabase.from('offers').select('*').eq('is_active',true)
+    ]).then(([b,o])=>{
+      if(!b.error && Array.isArray(b.data)) banners=b.data
+      if(!o.error && Array.isArray(o.data)) offers=o.data
+      if(view==='shop') render()
+    }).catch(()=>{})
+
     const validIds=new Set(products.map(p=>p.id))
-    const nextCart=cart.filter(x=>validIds.has(x.id)).map(x=>({...x,qty:Math.min(Math.max(1,Number(x.qty||1)),Math.max(1,Number(products.find(p=>p.id===x.id)?.stock||1)))}))
+    const nextCart=cart.filter(x=>validIds.has(x.id)).map(x=>({
+      ...x,
+      qty:Math.min(
+        Math.max(1,Number(x.qty||1)),
+        Math.max(1,Number(products.find(p=>p.id===x.id)?.stock||1))
+      )
+    }))
     if(JSON.stringify(nextCart)!==JSON.stringify(cart)){cart=nextCart;saveCart()}
   } catch (err) {
     console.warn('Supabase public read failed; using bundled catalog.', err)
@@ -135,10 +151,10 @@ function waOrderLink(o){
 function statusLabel(status){const map={payment_review:lang==='ar'?'مراجعة الدفع':'Paiement à vérifier',pending:lang==='ar'?'قيد الانتظار':'En attente',confirmed:lang==='ar'?'مؤكد':'Confirmée',rejected:lang==='ar'?'مرفوض':'Refusée',processing:lang==='ar'?'قيد التجهيز':'En préparation',shipped:lang==='ar'?'تم الشحن':'Expédiée',delivered:lang==='ar'?'تم التسليم':'Livrée',cancelled:lang==='ar'?'ملغاة':'Annulée'};return map[String(status||'').toLowerCase()]||String(status||'');}
 function statusClass(status){return status==='confirmed'||status==='delivered'?'ok':status==='rejected'||status==='cancelled'?'error':'warn'}
 function validExternalUrl(value){const u=String(value||'').trim();if(!u)return '';try{const x=new URL(u,location.origin);return ['http:','https:'].includes(x.protocol)?x.href:''}catch{return ''}}
-function socialFooter(){const defs=[['branch_facebook_url','Facebook','f'],['branch_tiktok_url','TikTok','t']];const links=defs.map(([k,label,icon])=>{const u=validExternalUrl(settings?.[k]);return u?`<a class="socialLink social-${icon}" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`:''}).join('');const wn=waNumber(settings?.branch_whatsapp||settings?.whatsapp);const wa=wn?`<a class="socialLink social-wa" href="https://wa.me/${esc(wn)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`:'';const logo=settings?.branch_logo_url||settings?.logo_url||'/martlinker-logo.webp';const name=lang==='ar'?(settings?.branch_name_ar||settings?.store_name_ar||'فرع DXN كرفور مدريد'):(settings?.branch_name_fr||settings?.store_name_fr||'DXN Carrefour Madrid');return `<footer class="siteFooter"><div class="footerBrand"><img src="${esc(logo)}" alt="${esc(name)}"><div><b>${esc(name)}</b><small>${esc(lang==='ar'?(settings?.branch_description_ar||settings?.footer_text_ar||''):(settings?.branch_description_fr||settings?.tagline_fr||''))}</small></div></div><div class="socialTitle">${lang==='ar'?'تابعنا وتواصل معنا':'Suivez-nous et contactez-nous'}</div><div class="socialLinks">${links}${wa}${!links&&!wa?`<span class="muted">${lang==='ar'?'ستظهر روابط التواصل هنا بعد إضافتها من الإعدادات.':'Les liens sociaux apparaîtront ici après leur ajout dans les paramètres.'}</span>`:''}</div></footer>`}
-function nav(){const logo=settings?.branch_logo_url||settings?.logo_url||'/martlinker-logo.webp';const name=lang==='ar'?(settings?.branch_name_ar||'فرع DXN كرفور مدريد'):(settings?.branch_name_fr||'DXN Carrefour Madrid');return `<header class="top"><div class="bar"><button class="backBtn" onclick="window.goBack()" aria-label="${lang==='fr'?'Retour':'رجوع'}">‹</button><button class="logo" onclick="window.go('shop')" aria-label="${esc(name)}"><img src="${esc(logo)}" alt="${esc(name)}" onerror="this.src='/martlinker-logo.webp'"><span class="logoText">DXN<span> Carrefour Madrid</span></span></button><input class="search" value="${esc(query)}" placeholder="${t('search')}" oninput="window.search(this.value)"><button class="lang" onclick="window.toggleLang()">${lang==='ar'?'FR':'عربي'}</button></div></header>`}
+function socialFooter(){const defs=[['branch_facebook_url','Facebook','f'],['branch_tiktok_url','TikTok','t']];const links=defs.map(([k,label,icon])=>{const u=validExternalUrl(settings?.[k]);return u?`<a class="socialLink social-${icon}" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`:''}).join('');const wn=waNumber(settings?.branch_whatsapp||settings?.whatsapp);const wa=wn?`<a class="socialLink social-wa" href="https://wa.me/${esc(wn)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`:'';const logo=logoUrl(),name=lang==='ar'?(settings?.branch_name_ar||settings?.store_name_ar||'فرع DXN كرفور مدريد'):(settings?.branch_name_fr||settings?.store_name_fr||'DXN Carrefour Madrid');return `<footer class="siteFooter"><div class="footerBrand">${logo?`<img src="${esc(logo)}" alt="${esc(name)}" loading="lazy" decoding="async" onerror="this.style.display='none'">`:''}<div><b>${esc(name)}</b><small>${esc(lang==='ar'?(settings?.branch_description_ar||settings?.footer_text_ar||''):(settings?.branch_description_fr||settings?.tagline_fr||''))}</small></div></div><div class="socialTitle">${lang==='ar'?'تابعنا وتواصل معنا':'Suivez-nous et contactez-nous'}</div><div class="socialLinks">${links}${wa}${!links&&!wa?`<span class="muted">${lang==='ar'?'ستظهر روابط التواصل هنا بعد إضافتها من الإعدادات.':'Les liens sociaux apparaîtront ici après leur ajout dans les paramètres.'}</span>`:''}</div></footer>`}
+function nav(){const logo=logoUrl(),name=lang==='ar'?(settings?.branch_name_ar||'فرع DXN كرفور مدريد'):(settings?.branch_name_fr||'DXN Carrefour Madrid');return `<header class="top"><div class="bar"><button class="backBtn" onclick="window.goBack()" aria-label="${lang==='fr'?'Retour':'رجوع'}">‹</button><button class="logo" onclick="window.go('shop')" aria-label="${esc(name)}">${logo?`<img src="${esc(logo)}" alt="${esc(name)}" loading="lazy" decoding="async" onerror="this.style.display='none'">`:''}<span class="logoText">DXN<span> Carrefour Madrid</span></span></button><input class="search" value="${esc(query)}" placeholder="${t('search')}" oninput="window.search(this.value)"><button class="lang" onclick="window.toggleLang()">${lang==='ar'?'FR':'عربي'}</button></div></header>`}
 function bottom(){if(isAdmin())return `<nav class="bottom adminBottom"><button onclick="window.go('admin')">⚙️ ${t('admin')}</button></nav>`;return `<nav class="bottom"><button onclick="window.go('shop')">🏠 ${t('home')}</button><button onclick="window.go('cart')">🛒 ${t('cart')} (${cart.reduce((a,x)=>a+x.qty,0)})</button><button onclick="window.go('account')">👤 ${t('account')}</button></nav>`}
-function hero(){const logo=settings?.branch_logo_url||settings?.logo_url||'/martlinker-logo.webp';const title=lang==='fr'?(settings?.branch_name_fr||settings?.hero_title_fr||'DXN Carrefour Madrid'):(settings?.branch_name_ar||settings?.hero_title_ar||'فرع DXN كرفور مدريد');const text=lang==='fr'?(settings?.branch_description_fr||settings?.hero_text_fr||'Point de vente DXN à Nouakchott'):(settings?.branch_description_ar||settings?.hero_text_ar||'نقطة بيع DXN في نواكشوط');const addr=lang==='fr'?(settings?.branch_address_fr||'Carrefour Madrid'):(settings?.branch_address_ar||'كرفور مدريد');const wn=waNumber(settings?.branch_whatsapp||settings?.whatsapp);return `<section class="hero"><img class="heroLogo" src="${esc(logo)}" alt="${esc(title)}" loading="eager" onerror="this.src='/martlinker-logo.webp'"><h1>${esc(title)}</h1><p>${esc(text)}</p><div class="muted">${esc(addr)}</div>${wn?`<a class="whatsappBtn wide" href="https://wa.me/${esc(wn)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp ${esc(settings?.branch_phone||'')}</a>`:''}</section>`}
+function hero(){const logo=logoUrl(),title=lang==='fr'?(settings?.branch_name_fr||settings?.hero_title_fr||'DXN Carrefour Madrid'):(settings?.branch_name_ar||settings?.hero_title_ar||'فرع DXN كرفور مدريد'),text=lang==='fr'?(settings?.branch_description_fr||settings?.hero_text_fr||'Point de vente DXN à Nouakchott'):(settings?.branch_description_ar||settings?.hero_text_ar||'نقطة بيع DXN في نواكشوط'),addr=lang==='fr'?(settings?.branch_address_fr||'Carrefour Madrid'):(settings?.branch_address_ar||'كرفور مدريد'),wn=waNumber(settings?.branch_whatsapp||settings?.whatsapp);return `<section class="hero">${logo?`<img class="heroLogo" src="${esc(logo)}" alt="${esc(title)}" fetchpriority="high" decoding="async" onerror="this.style.display='none'">`:''}<h1>${esc(title)}</h1><p>${esc(text)}</p><div class="muted">${esc(addr)}</div>${wn?`<a class="whatsappBtn wide" href="https://wa.me/${esc(wn)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp ${esc(settings?.branch_phone||'')}</a>`:''}</section>`}
 function bannerStrip(){if(!banners.length)return '';return `<section class="banners">${banners.map(b=>`<article class="banner">${b.image_url?`<img src="${esc(b.image_url)}" alt="${esc(bannerTitle(b))}" loading="lazy" decoding="async">`:''}<div><h2>${esc(bannerTitle(b))}</h2><p>${esc(bannerBody(b))}</p>${b.link_url?`<a href="${esc(b.link_url)}" target="_blank" rel="noopener">${esc(lang==='fr'?(b.button_text_fr||'Ouvrir'):(b.button_text_ar||'عرض'))}</a>`:''}</div></article>`).join('')}</section>`}
 function productKey(p){return String(p?.id||'').trim();}
 function shortProductKey(p){
@@ -175,15 +191,19 @@ function openSharedProduct(){
   return true;
 }
 function card(p){const q0=cart.find(x=>x.id===p.id)?.qty||0;return `<article class="card">${badgeText(p)?`<span class="badge productBadge">${esc(badgeText(p))}</span>`:''}<div class="photo">${imageOf(p)?`<img src="${esc(imageOf(p))}" data-fallback="${esc(imageFallback(p))}" alt="${esc(nameOf(p))}" loading="lazy" onerror="window.imgFallback(this)">`:`<span>${t('noImage')}</span>`}</div><div class="body"><b class="name">${esc(nameOf(p))}</b><div class="price">${p.member_price!=null&&Number.isFinite(Number(p.member_price))?`<del>${money(p.price)}</del> <strong class="memberPrice">${money(p.member_price)}</strong>`:activeOffer(p)?`<del>${money(p.price)}</del> ${money(effectivePrice(p))}`:money(p.price)}</div><button class="add" ${Number(p.stock)<=0?'disabled':''} onclick="window.add('${p.id}')">${Number(p.stock)<=0?t('out'):(q0?`${t('add')} (${q0})`:t('add'))}</button><div class="productCardActions"><button class="secondary wide" onclick="window.detail('${p.id}')">${t('details')}</button><button class="shareBtn" onclick="window.shareProduct('${p.id}')" aria-label="${esc(t('share'))}">↗ ${t('share')}</button></div></div></article>`}
-function shop(){
+function filteredProducts(){
   let ps=products.filter(p=>categoryId==='all'||p.category_id===categoryId)
   if(query){const ql=query.toLowerCase();ps=ps.filter(p=>[p.name_ar,p.name_fr,p.name_en,p.sku].filter(Boolean).join(' ').toLowerCase().includes(ql))}
   if(sortMode==='priceAsc')ps.sort((a,b)=>effectivePrice(a)-effectivePrice(b));
   if(sortMode==='priceDesc')ps.sort((a,b)=>effectivePrice(b)-effectivePrice(a));
   if(sortMode==='newest')ps.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
   if(sortMode==='popular')ps.sort((a,b)=>Number(b.sort_order||0)-Number(a.sort_order||0));
-  const totalPages=Math.max(1,Math.ceil(ps.length/pageSize)); if(page>totalPages)page=totalPages; const shown=ps.slice((page-1)*pageSize,page*pageSize);
-  return `${nav()}${hero()}<main class="wrap">${bannerStrip()}<div class="sectionhead"><h2>${t('categories')}</h2></div><div class="cats"><button class="cat ${categoryId==='all'?'active':''}" onclick="window.cat('all')">${t('all')}</button>${categories.map(c=>`<button class="cat ${categoryId===c.id?'active':''}" onclick="window.cat('${c.id}')">${esc(catName(c))}</button>`).join('')}</div><div class="sectionhead"><h2>${t('shop')}</h2><div class="filters"><select onchange="window.sort(this.value)"><option value="default">الترتيب</option><option value="priceAsc" ${sortMode==='priceAsc'?'selected':''}>السعر: الأقل</option><option value="priceDesc" ${sortMode==='priceDesc'?'selected':''}>السعر: الأعلى</option><option value="newest" ${sortMode==='newest'?'selected':''}>الأحدث</option><option value="popular" ${sortMode==='popular'?'selected':''}>الأكثر طلبًا</option></select><select onchange="window.pageSize(this.value)"><option value="20" ${pageSize===20?'selected':''}>20</option><option value="24" ${pageSize===24?'selected':''}>24</option><option value="30" ${pageSize===30?'selected':''}>30</option></select></div></div><section class="grid">${shown.length?shown.map(card).join(''):`<div class="empty full">${t('noData')}</div>`}</section><div class="pagination">${Array.from({length:totalPages},(_,i)=>`<button class="pagebtn ${page===i+1?'on':''}" onclick="window.page(${i+1})">${i+1}</button>`).join('')}</div></main>${bottom()}${modalHtml()}`}
+  return ps
+}
+function renderProductResults(){const ps=filteredProducts(),totalPages=Math.max(1,Math.ceil(ps.length/pageSize));if(page>totalPages)page=totalPages;const shown=ps.slice((page-1)*pageSize,page*pageSize);const grid=document.querySelector('#productGrid');if(grid)grid.innerHTML=shown.length?shown.map(card).join(''):`<div class="empty full">${t('noData')}</div>`;const pg=document.querySelector('#productPagination');if(pg)pg.innerHTML=Array.from({length:totalPages},(_,i)=>`<button class="pagebtn ${page===i+1?'on':''}" onclick="window.page(${i+1})">${i+1}</button>`).join('')}
+function shop(){
+  const ps=filteredProducts(),totalPages=Math.max(1,Math.ceil(ps.length/pageSize));if(page>totalPages)page=totalPages;const shown=ps.slice((page-1)*pageSize,page*pageSize);
+  return `${nav()}${hero()}<main class="wrap">${bannerStrip()}<div class="sectionhead"><h2>${t('categories')}</h2></div><div class="cats"><button class="cat ${categoryId==='all'?'active':''}" onclick="window.cat('all')">${t('all')}</button>${categories.map(c=>`<button class="cat ${categoryId===c.id?'active':''}" onclick="window.cat('${c.id}')">${esc(catName(c))}</button>`).join('')}</div><div class="sectionhead"><h2>${t('shop')}</h2><div class="filters"><select onchange="window.sort(this.value)"><option value="default">الترتيب</option><option value="priceAsc" ${sortMode==='priceAsc'?'selected':''}>السعر: الأقل</option><option value="priceDesc" ${sortMode==='priceDesc'?'selected':''}>السعر: الأعلى</option><option value="newest" ${sortMode==='newest'?'selected':''}>الأحدث</option><option value="popular" ${sortMode==='popular'?'selected':''}>الأكثر طلبًا</option></select><select onchange="window.pageSize(this.value)"><option value="12" ${pageSize===12?'selected':''}>12</option><option value="20" ${pageSize===20?'selected':''}>20</option><option value="24" ${pageSize===24?'selected':''}>24</option></select></div></div><section id="productGrid" class="grid">${shown.length?shown.map(card).join(''):`<div class="empty full">${t('noData')}</div>`}</section><div id="productPagination" class="pagination">${Array.from({length:totalPages},(_,i)=>`<button class="pagebtn ${page===i+1?'on':''}" onclick="window.page(${i+1})">${i+1}</button>`).join('')}</div></main>${bottom()}${modalHtml()}`}
 function cartView(){
   if(isAdmin())return `<main class="wrap"><div class="panel pad"><h2>${t('admin')}</h2><p class="muted">${lang==='ar'?'استخدم لوحة الإدارة المستقلة للدخول إلى أدوات الإدارة.':'Utilisez l’application d’administration indépendante.'}</p></div></main>`
   if(!cart.length)return `${nav()}<main class="wrap"><div class="panel empty"><h2>${t('empty')}</h2><button class="primary" onclick="window.go('shop')">${t('shop')}</button></div></main>${bottom()}`
@@ -209,7 +229,7 @@ function checkout(){
   const subtotal=cart.reduce((a,x)=>a+cartUnitPrice(x)*x.qty,0),fee=Number(settings.delivery_fee||0),total=subtotal+fee
   const hasAddress=profile?.wilaya&&profile?.moughataa&&profile?.address
   if(!hasAddress){authReturnView='checkout';return `${nav()}<main class="wrap"><section class="panel pad"><h2>${lang==='ar'?'أكمل بيانات عنوانك مرة واحدة':'Complétez une fois votre adresse'}</h2><p class="muted">${lang==='ar'?'احفظ الولاية والمقاطعة والعنوان في حسابك، ثم لن نطلبها عند كل طلبية.':'Enregistrez votre adresse dans votre compte. Elle ne sera plus demandée à chaque commande.'}</p><button class="primary" onclick="window.go('account')">${lang==='ar'?'إكمال بيانات الحساب':'Compléter le compte'}</button></section></main>${bottom()}`}
-  return `${nav()}<main class="wrap"><section class="panel pad"><div class="sectionhead"><div><h1>${t('checkout')}</h1><div class="muted">${lang==='ar'?'تأكد من الطلبية أولاً، ثم حوّل المبلغ، وبعدها أرسل إثبات الدفع فقط.':'Vérifiez d’abord la commande, effectuez le paiement, puis envoyez uniquement la preuve.'}</div></div><button type="button" class="secondary" onclick="window.go('cart')">${t('cart')}</button></div><div class="panel inner"><b>${t('fullName')}: </b>${esc(profile?.full_name||session.user.email)}<br><b>${t('whatsapp')}: </b>${esc(profile?.whatsapp||'')}<br><b>${t('wilaya')}: </b>${esc(profile.wilaya)}<br><b>${t('moughataa')}: </b>${esc(profile.moughataa)}<br><b>${t('address')}: </b>${esc(profile.address)}</div><div class="panel inner"><h3>${lang==='ar'?'مراجعة الطلبية':'Vérification de la commande'}</h3>${cart.map(x=>{const p=products.find(z=>z.id===x.id)||x;return `<div class="cartrow"><div class="thumb">${imageOf(p)?`<img src="${esc(imageOf(p))}" alt="${esc(nameOf(p))}" loading="lazy" decoding="async">`:''}</div><div><b>${esc(nameOf(p))}</b><div>${x.qty} × ${money(cartUnitPrice(x))}</div></div><strong>${money(cartUnitPrice(x)*x.qty)}</strong></div>`}).join('')}<div class="summary"><span>${t('subtotal')}</span><b>${money(subtotal)}</b></div><div class="summary"><span>${t('delivery')}</span><b>${money(fee)}</b></div><div class="summary total"><span>${t('total')}</span><b>${money(total)}</b></div></div><form class="form" onsubmit="window.place(event)"><div class="error checkoutNotice">${lang==='ar'?'تنبيه: يرجى التأكد من تفاصيل الطلبية والمبلغ الإجمالي قبل إتمام الدفع.':'Attention : vérifiez les détails de la commande et le montant total avant d’effectuer le paiement.'}</div><div class="panel inner"><b>${t('payment')}</b><p>${t('paymentBank')}</p><div class="muted">${esc(settings.bank_name||'')} · ${esc(settings.account_name||'')} · ${esc(settings.account_number||'')} · ${esc(settings.bankily||'')}</div></div><div class="error checkoutNotice">${lang==='ar'?'تنبيه: بعد الدفع، يرجى رفع إثبات الدفع لإتمام إرسال الطلبية.':'Attention : après le paiement, veuillez joindre la preuve de paiement pour envoyer la commande.'}</div><label class="fileField"><span>${t('proof')}</span><input name="proof" type="file" accept="image/*,.pdf" required onchange="window.proofName(this)"><small id="proofName" class="muted">${lang==='fr'?'Aucun fichier sélectionné':'لم يتم اختيار ملف'}</small></label><button class="primary">${t('send')}</button></form></section></main>${bottom()}`
+  return `${nav()}<main class="wrap"><section class="panel pad"><div class="sectionhead"><div><h1>${t('checkout')}</h1><div class="muted">${lang==='ar'?'تأكد من الطلبية أولاً، ثم حوّل المبلغ، وبعدها أرسل إثبات الدفع فقط.':'Vérifiez d’abord la commande, effectuez le paiement, puis envoyez uniquement la preuve.'}</div></div><button type="button" class="secondary" onclick="window.go('cart')">${t('cart')}</button></div><div class="panel inner"><b>${t('fullName')}: </b>${esc(profile?.full_name||session.user.email)}<br><b>${t('whatsapp')}: </b>${esc(profile?.whatsapp||'')}<br><b>${t('wilaya')}: </b>${esc(profile.wilaya)}<br><b>${t('moughataa')}: </b>${esc(profile.moughataa)}<br><b>${t('address')}: </b>${esc(profile.address)}</div><div class="panel inner"><h3>${lang==='ar'?'مراجعة الطلبية':'Vérification de la commande'}</h3>${cart.map(x=>{const p=products.find(z=>z.id===x.id)||x;return `<div class="cartrow"><div class="thumb">${imageOf(p)?`<img src="${esc(imageOf(p))}" alt="${esc(nameOf(p))}" loading="lazy" decoding="async">`:''}</div><div><b>${esc(nameOf(p))}</b><div>${x.qty} × ${money(cartUnitPrice(x))}</div></div><strong>${money(cartUnitPrice(x)*x.qty)}</strong></div>`}).join('')}<div class="summary"><span>${t('subtotal')}</span><b>${money(subtotal)}</b></div><div class="summary"><span>${t('delivery')}</span><b>${money(fee)}</b></div><div class="summary total"><span>${t('total')}</span><b>${money(total)}</b></div></div><form class="form" onsubmit="window.place(event)"><div class="error checkoutNotice">${lang==='ar'?'تنبيه: يرجى التأكد من تفاصيل الطلبية والمبلغ الإجمالي قبل إتمام الدفع.':'Attention : vérifiez les détails de la commande et le montant total avant d’effectuer le paiement.'}</div><div class="panel inner"><b>${t('payment')}</b><p>${t('paymentBank')}</p><div class="muted">${esc(settings.bank_name||'')} · ${esc(settings.account_name||'')} · ${esc(settings.account_number||'')} · ${esc(settings.bankily||'024975')}</div></div><div class="error checkoutNotice">${lang==='ar'?'تنبيه: بعد الدفع، يرجى رفع إثبات الدفع لإتمام إرسال الطلبية.':'Attention : après le paiement, veuillez joindre la preuve de paiement pour envoyer la commande.'}</div><label><span>${t('notes')}</span><textarea name="notes" placeholder="${lang==='ar'?'ملاحظات إضافية للطلب (اختياري)':'Notes supplémentaires (facultatif)'}"></textarea></label><label class="fileField"><span>${t('proof')}</span><input name="proof" type="file" accept="image/*,.pdf" required onchange="window.proofName(this)"><small id="proofName" class="muted">${lang==='fr'?'Aucun fichier sélectionné':'لم يتم اختيار ملف'}</small></label><button class="primary">${t('send')}</button></form></section></main>${bottom()}`
 }
 
 async function uploadProof(file){
@@ -240,31 +260,51 @@ async function uploadImage(file,folder){
 }
 async function place(e){
   e.preventDefault();
-  if(e.__busy)return; e.__busy=true;
-  const submit=e.submitter; if(submit)submit.disabled=true;
-  if(!cart.length){if(submit)submit.disabled=false;e.__busy=false;return toast(t('empty'));}
-  if(!session||!supabase){if(submit)submit.disabled=false;e.__busy=false;return toast(t('needLogin'));}
-  const v=Object.fromEntries(new FormData(e.target));
-  if(!v.proof){if(submit)submit.disabled=false;e.__busy=false;return toast(lang==='ar'?'يرجى اختيار إثبات الدفع.':'Veuillez choisir la preuve de paiement.');}
-  if(v.proof.size>8*1024*1024){if(submit)submit.disabled=false;e.__busy=false;return toast(lang==='ar'?'الحد الأقصى 8 ميغابايت':'Maximum 8 MB');}
-  const fresh=await supabase.from('profiles').select('full_name,whatsapp,wilaya,moughataa,address,is_blocked').eq('id',session.user.id).maybeSingle();
-  if(fresh.error||!fresh.data){if(submit)submit.disabled=false;e.__busy=false;return toast(t('wrong'));}
-  profile={...profile,...fresh.data};
-  if(profile.is_blocked){if(submit)submit.disabled=false;e.__busy=false;return toast(t('accountBlocked'));}
-  if(!profile.wilaya||!profile.moughataa||!profile.address){if(submit)submit.disabled=false;e.__busy=false;return toast(lang==='ar'?'أكمل بيانات العنوان في حسابك أولاً.':'Complétez votre adresse dans votre compte.');}
-  let proof='';
+  if(e.__busy)return;
+  e.__busy=true;
+  const submit=e.submitter||e.querySelector('button[type="submit"]');
+  if(submit)submit.disabled=true;
+  const reset=()=>{if(submit)submit.disabled=false;e.__busy=false};
   try{
-    proof=await uploadProof(v.proof);
-    const items=cart.map(x=>({product_id:x.id,quantity:Number(x.qty||1)}));
-    const order={user_id:session.user.id,wilaya:profile.wilaya,moughataa:profile.moughataa,address:profile.address,notes:v.notes||null,payment_method:'bank_apps',proof_key:proof};
-    const r=await supabase.rpc('ml_create_order',{p_order:order,p_items:items});
-    if(r.error)throw r.error;
-    cart=[];saveCart();toast(t('success'));go('account')
-  }catch(x){
-    if(proof){try{await supabase.storage.from('payment-proofs').remove([proof])}catch{} }
-    toast(x.message||t('wrong'))
-    if(submit)submit.disabled=false; e.__busy=false
-  }
+    if(!cart.length){reset();return toast(t('empty'));}
+    if(!session||!supabase){reset();return toast(t('needLogin'));}
+    const v=Object.fromEntries(new FormData(e.target));
+    const proofFile=v.proof;
+    if(!proofFile?.size){reset();return toast(lang==='ar'?'يرجى اختيار إثبات الدفع.':'Veuillez choisir la preuve de paiement.');}
+    if(proofFile.size>8*1024*1024){reset();return toast(lang==='ar'?'الحد الأقصى 8 ميغابايت':'Maximum 8 MB');}
+    const fresh=await supabase.from('profiles').select('full_name,whatsapp,wilaya,moughataa,address,is_blocked').eq('id',session.user.id).maybeSingle();
+    if(fresh.error||!fresh.data){reset();return toast(t('wrong'));}
+    profile={...profile,...fresh.data};
+    if(profile.is_blocked){reset();return toast(t('accountBlocked'));}
+    if(!String(profile.full_name||'').trim()){reset();return toast(lang==='ar'?'أضف اسمك الكامل في الحساب أولاً.':'Ajoutez votre nom complet dans votre compte.');}
+    if(!String(profile.whatsapp||'').trim()){reset();return toast(lang==='ar'?'أضف رقم واتساب في الحساب أولاً.':'Ajoutez votre numéro WhatsApp dans votre compte.');}
+    if(!profile.wilaya||!profile.moughataa||!profile.address){reset();return toast(lang==='ar'?'أكمل بيانات العنوان في حسابك أولاً.':'Complétez votre adresse dans votre compte.');}
+    // Stock, active status, price and order creation are validated atomically by
+    // ml_create_order. Avoid a second round-trip here; it also prevents a race
+    // between this client-side check and the final transaction.
+    let proof='';
+    try{
+      proof=await uploadProof(proofFile);
+      const items=cart.map(x=>({product_id:x.id,quantity:Number(x.qty||1)}));
+      const order={user_id:session.user.id,wilaya:profile.wilaya,moughataa:profile.moughataa,address:profile.address,notes:v.notes||null,payment_method:'bank_apps',proof_key:proof};
+      const r=await supabase.rpc('ml_create_order',{p_order:order,p_items:items});
+      if(r.error)throw r.error;
+      cart=[];saveCart();toast(t('success'));go('account');
+    }catch(x){
+      if(proof){try{await supabase.storage.from('payment-proofs').remove([proof])}catch{}}
+      const code=String(x?.message||x?.code||'');
+      const friendly=code.includes('INSUFFICIENT_STOCK')?(lang==='ar'?'أحد المنتجات لم يعد متوفراً بالكمية المطلوبة. حدّث السلة ثم حاول مرة أخرى.':'Un produit n’est plus disponible dans la quantité demandée. Actualisez le panier puis réessayez.')
+        :code.includes('INVALID_PAYMENT_PROOF')?(lang==='ar'?'إثبات الدفع غير صالح. اختر الملف من جديد.':'La preuve de paiement est invalide. Choisissez à nouveau le fichier.')
+        :code.includes('PROFILE_ADDRESS_REQUIRED')?(lang==='ar'?'أكمل عنوانك في حسابك أولاً.':'Complétez votre adresse dans votre compte.')
+        :code.includes('WHATSAPP_REQUIRED')?(lang==='ar'?'أضف رقم واتساب في حسابك أولاً.':'Ajoutez votre numéro WhatsApp dans votre compte.')
+        :code.includes('PROFILE_NAME_REQUIRED')?(lang==='ar'?'أضف اسمك الكامل في حسابك أولاً.':'Ajoutez votre nom complet dans votre compte.')
+        :code.includes('AUTH_REQUIRED')?(lang==='ar'?'انتهت جلسة الدخول. سجّل الدخول مرة أخرى.':'Votre session a expiré. Connectez-vous à nouveau.')
+        :code.includes('FORBIDDEN')?(lang==='ar'?'لا يمكن إتمام الطلب بهذا الحساب. سجّل الدخول مرة أخرى ثم حاول.':'Cette commande ne peut pas être créée avec ce compte. Reconnectez-vous puis réessayez.')
+        :code.includes('EMPTY_ORDER')?(lang==='ar'?'السلة فارغة. أضف منتجاً ثم حاول مرة أخرى.':'Le panier est vide. Ajoutez un produit puis réessayez.')
+        :(x?.message||t('wrong'));
+      toast(friendly);reset();return;
+    }
+  }catch(x){toast(x?.message||t('wrong'));reset();}
 }
 
 function modalHtml(){
@@ -276,6 +316,7 @@ function modalHtml(){
   if(modal.type==='reset')return `<div class="modal"><div class="sheet"><div class="sheethead"><h2>${lang==='ar'?'كلمة مرور جديدة':'Nouveau mot de passe'}</h2><button class="iconbtn" onclick="window.closeModal()">×</button></div><form class="form" onsubmit="window.updatePassword(event)"><label>${t('password')}<input name="password" type="password" minlength="6" required></label><label>${t('confirm')}<input name="confirm" type="password" minlength="6" required></label><button class="primary">${lang==='ar'?'حفظ كلمة المرور':'Enregistrer'}</button></form></div></div>`
   if(modal.type==='detail'){const p=modal.p,desc=descriptionText(p);return `<div class="modal"><div class="sheet"><div class="sheethead"><h2>${esc(nameOf(p))}</h2><button class="iconbtn" onclick="window.closeModal()">×</button></div>${imageOf(p)?`<img class="detailImg" src="${esc(imageOf(p))}" data-fallback="${esc(imageFallback(p))}" loading="lazy" decoding="async" onerror="window.imgFallback(this)">`:''}<p>${esc(stripFoodNote(desc))}</p>${lang==='ar'&&isFoodOrSupplement(p)?`<div class="foodDisclaimer">${FOOD_NOTE}</div>`:''}<div class="price">${p.member_price!=null&&Number.isFinite(Number(p.member_price))?`<del>${money(p.price)}</del> <strong class="memberPrice">${money(p.member_price)}</strong>`:activeOffer(p)?`<del>${money(p.price)}</del> ${money(effectivePrice(p))}`:money(p.price)}</div><div class="detailActions"><button class="primary" onclick="window.add('${p.id}');window.closeModal()">${t('add')}</button><button class="shareBtn shareBtnLarge" onclick="window.shareProduct('${p.id}')">↗ ${t('share')}</button></div></div></div>`}
   if(modal.type==='share'){const p=modal.p,url=productShareUrl(p),text=productShareText(p);const wa=`https://wa.me/?text=${encodeURIComponent(text+'\n'+productShareUrl(p))}`;const fb=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productShareUrl(p))}`;return `<div class="modal"><div class="sheet shareSheet"><div class="sheethead"><div><h2>${t('share')}</h2><div class="muted">${esc(nameOf(p))}</div></div><button class="iconbtn" onclick="window.closeModal()">×</button></div><div class="shareGrid"><a class="shareOption whatsappShare" href="${esc(wa)}" target="_blank" rel="noopener noreferrer">💬 ${t('shareWhatsapp')}</a><a class="shareOption facebookShare" href="${esc(fb)}" target="_blank" rel="noopener noreferrer">f ${t('shareFacebook')}</a><button class="shareOption tiktokShare" onclick="window.shareProductChannel('${p.id}','tiktok')">♪ ${t('shareTiktok')}</button><button class="shareOption copyShare" onclick="window.shareProductChannel('${p.id}','copy')">🔗 ${t('copyLink')}</button><button class="shareOption nativeShare" onclick="window.shareProductChannel('${p.id}','native')">↗ ${t('nativeShare')}</button></div><div class="shareUrl" dir="ltr">${esc(url)}</div></div></div>`}
+  if(modal.type==='orderDetail'){const o=modal.order||{},items=modal.items||[];return `<div class="modal"><div class="sheet orderSheet"><div class="sheethead"><div><h2>${lang==='ar'?'تفاصيل الطلبية':'Détails de la commande'}</h2><div class="muted">${esc(orderNumber(o))} · ${esc(formatDateTime(o.created_at))}</div></div><button class="iconbtn" onclick="window.closeModal()">×</button></div><div class="orderInfoGrid"><div><span>${t('fullName')}</span><b>${esc(o.full_name||'')}</b></div><div><span>${t('whatsapp')}</span><b dir="ltr">${esc(o.whatsapp||'')}</b></div><div><span>${t('wilaya')}</span><b>${esc(o.wilaya||'')}</b></div><div><span>${t('moughataa')}</span><b>${esc(o.moughataa||'')}</b></div><div class="full"><span>${t('address')}</span><b>${esc(o.address||'')}</b></div></div><div class="orderItems">${items.map(i=>`<div class="orderItem"><div><b>${esc(i.product_name||'Produit')}</b><small>${i.quantity} × ${money(i.unit_price)}</small></div><strong>${money(Number(i.unit_price||0)*Number(i.quantity||0))}</strong></div>`).join('')}</div><div class="orderTotals"><span>${t('subtotal')} <b>${money(o.subtotal)}</b></span><span>${t('delivery')} <b>${money(o.delivery_fee)}</b></span><strong>${t('total')} <b>${money(o.total)}</b></strong></div></div></div>`}
   return ''
 }
 
@@ -285,7 +326,7 @@ window.imgFallback=imgFallback
 window.proofName=input=>{const el=document.querySelector('#proofName');if(el)el.textContent=input?.files?.[0]?.name|| (lang==='fr'?'Aucun fichier sélectionné':'لم يتم اختيار ملف')}
 window.go=go
 window.goBack=goBack
-window.search=v=>{query=v;view='shop';render()}
+window.search=v=>{query=String(v||'');page=1;if(view!=='shop'){view='shop';render();return}renderProductResults()}
 window.cat=v=>{categoryId=v;view='shop';render()}
 window.toggleLang=()=>{lang=lang==='ar'?'fr':'ar';localStorage.setItem(LANG_KEY,lang);render()}
 window.add=id=>{const p=products.find(x=>x.id===id);if(!p||Number(p.stock)<=0)return;const x=cart.find(z=>z.id===id);if(x){if(x.qty>=Number(p.stock))return toast(t('out'));x.qty++}else cart.push({id,qty:1,price:effectivePrice(p),name_ar:p.name_ar,name_fr:p.name_fr,name_en:p.name_en,image_url:imageOf(p)});saveCart();toast(t('success'));render()}
@@ -303,14 +344,25 @@ window.requestMagicLink=async e=>{e.preventDefault();if(!supabase)return toast('
 window.requestRecovery=async e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target)),email=String(v.email||'').trim().toLowerCase();if(!email)return toast(t('required'));authAction=true;try{const r=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin});if(r.error)throw r.error;modal={type:'otp',flow:'recovery',email};render();toast(lang==='ar'?'أرسلنا رمز OTP إلى بريدك الإلكتروني.':'Code OTP envoyé à votre e-mail.')}catch(err){toast(err?.message||t('wrong'))}finally{authAction=false}}
 window.verifyAuthOtp=async e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target)),code=String(v.code||'').trim();if(!/^\d{6}$/.test(code))return toast(lang==='ar'?'أدخل رمز OTP المكوّن من 6 أرقام.':'Entrez le code OTP à 6 chiffres.');authAction=true;try{const flow=modal.flow;const type=flow==='signup'?'email':'recovery';const r=await supabase.auth.verifyOtp({email:modal.email,token:code,type});if(r.error)throw r.error;if(flow==='signup'){await loadSession();const target=modal.returnView||authReturnView||'account';authReturnView=null;modal=null;view=target;viewStack=[];render();if(view==='account')void renderOrders();toast(t('success'))}else{modal={type:'reset'};render();toast(lang==='ar'?'تم التحقق من البريد. اختر كلمة مرور جديدة.':'E-mail vérifié. Choisissez un nouveau mot de passe.')}}catch(err){toast(err?.message||t('wrong'))}finally{authAction=false}}
 window.updatePassword=async e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target));if(String(v.password||'').length<6||v.password!==v.confirm)return toast(t('required'));authAction=true;try{const r=await supabase.auth.updateUser({password:v.password});if(r.error)throw r.error;const invited=modal?.flow==='staff_invite';modal=null;if(invited){try{const u=new URL(location.href);u.searchParams.delete('staff_invite');u.hash='';history.replaceState({},'',u.pathname+(u.search||''));}catch{}await loadSession();location.href=ADMIN_APP_URL;}else{toast(t('success'));render()}}catch(err){toast(err?.message||t('wrong'))}finally{authAction=false}}
-window.sort=v=>{sortMode=v;page=1;render()}
-window.page=v=>{page=Number(v)||1;render()}
-window.pageSize=v=>{pageSize=Number(v)||20;localStorage.setItem('ml_page_size',pageSize);page=1;render()}
+window.shareProduct=id=>{const p=products.find(x=>x.id===id);if(!p)return;modal={type:'share',p};render()}
+window.shareProductChannel=async(id,channel)=>{const p=products.find(x=>x.id===id);if(!p)return;const text=productShareText(p),url=productShareUrl(p);try{if(channel==='whatsapp'){window.open(`https://wa.me/?text=${encodeURIComponent(text+'\n'+url)}`,'_blank','noopener,noreferrer');return}if(channel==='facebook'){window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank','noopener,noreferrer');return}if(channel==='native'||channel==='tiktok'){if(navigator.share){await navigator.share({title:nameOf(p),text,url});return}}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(`${text}\n${url}`);toast(t('linkCopied'));return}const ta=document.createElement('textarea');ta.value=`${text}\n${url}`;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast(t('linkCopied'))}catch(err){if(err?.name!=='AbortError')toast(t('wrong'))}}
+window.logout=async()=>{await supabase?.auth.signOut();session=null;profile=null;authReturnView=null;viewStack=[];view='shop';render()}
+window.saveProfile=async e=>{e.preventDefault();if(!session||!supabase)return;const v=Object.fromEntries(new FormData(e.target));const r=await supabase.from('profiles').update({full_name:String(v.full_name||'').trim(),whatsapp:String(v.whatsapp||'').trim(),wilaya:String(v.wilaya||'').trim(),moughataa:String(v.moughataa||'').trim(),address:String(v.address||'').trim(),updated_at:new Date().toISOString()}).eq('id',session.user.id);if(r.error)return toast(r.error.message);await loadSession();const target=authReturnView;authReturnView=null;toast(t('success'));if(target==='checkout'&&cart.length){view='checkout';viewStack=[];render()}else{render();void renderOrders()}}
+window.place=place
+window.orderDetail=async(id)=>{if(!supabase||!session)return;const r=await supabase.from('orders').select('*').eq('id',id).eq('user_id',session.user.id).single();if(r.error)return toast(r.error.message);const ir=await supabase.from('order_items').select('*').eq('order_id',id);modal={type:'orderDetail',order:r.data,items:ir.data||[],admin:false};render()}
+window.sort=v=>{sortMode=v;page=1;if(view==='shop')renderProductResults();else render()}
+window.page=v=>{page=Number(v)||1;if(view==='shop')renderProductResults();else render()}
+window.pageSize=v=>{pageSize=Number(v)||12;localStorage.setItem('ml_page_size',pageSize);page=1;if(view==='shop')renderProductResults();else render()}
 
 
 
 async function boot(){
-  await loadPublic();
+  // First paint must not wait for network/database calls.
+  render();
+  void loadPublic().then(()=>{
+    if(view==='shop') render();
+  });
+
   if(supabase){
     const r=await supabase.auth.getSession();
     await syncSession(r.data.session||null);
@@ -323,6 +375,5 @@ async function boot(){
   }
   const q=new URLSearchParams(location.search);
   if(q.get('auth')==='google'){ try{history.replaceState({},'',location.pathname+location.hash)}catch{} }
-  render();
 }
 boot().catch(err=>{console.error(err);render()});
